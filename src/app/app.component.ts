@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'shoppingCart';
+  nav = "recipes";
+
+  goToRecipes(){
+    this.nav = 'recipes'
+  }
+
+  goToShoppingList(){
+    this.nav = 'shppingList'
+  }
 }
