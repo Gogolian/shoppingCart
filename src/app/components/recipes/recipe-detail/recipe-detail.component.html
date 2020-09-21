@@ -1,5 +1,33 @@
-<h2>{{ recipe.name }}</h2>
-<button class="btn btn-primary">Manage Recipe</button>
+<div class="row">
+  <div class="col-xs-12">
+    <img
+      src="{{ recipe.imagePath }}"
+      alt="{{ recipe.name }}"
+      class="img-responsive"
+      style="max-height: 200px"
+    />
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <h1>{{ recipe.name }}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="btn-group"
+    appDropdown>
+      <button type="button"
+      class="btn btn-primary dropdown-toggle">
+        Manage Recipe <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <button>Hi!</button>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <p>{{ recipe.description }}</p>
-<p><img src="{{ recipe.imagePath }}" alt="{{ recipe.name }}"></p>
+<p></p>
 <p>Ingredients</p>
