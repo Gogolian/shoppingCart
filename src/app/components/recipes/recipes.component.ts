@@ -4,7 +4,7 @@ import { Recipe } from 'src/app/models/recipe.model';
 @Component({
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
-  styleUrls: ['./recipes.component.css']
+  styles: []
 })
 export class RecipesComponent implements OnInit {
   recipe:Recipe;
