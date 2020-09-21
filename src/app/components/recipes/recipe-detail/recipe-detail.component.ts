@@ -1,4 +1,3 @@
-import { FnParam } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Recipe } from 'src/app/models/recipe.model';
@@ -26,8 +25,6 @@ export class RecipeDetailComponent implements OnInit {
   addIngredientsToShoppingList() {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
   }
-
-  editRecipe(){}
 
   deleteRecipe(){}
 }
