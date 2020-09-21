@@ -23,7 +23,11 @@ export class RecipeDetailComponent implements OnInit {
     });
   }
 
-  onAddToShoppingList() {
+  addIngredientsToShoppingList() {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
   }
+
+  editRecipe(){}
+
+  deleteRecipe(){}
 }
