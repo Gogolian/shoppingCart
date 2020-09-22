@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Ingredient } from 'src/app/models/ingredient.model'
 import { Recipe } from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe.service';
@@ -15,35 +15,35 @@ import { RecipeService } from 'src/app/services/recipe.service';
   }`],
 })
 export class RecipeEditComponent implements OnInit {
-  id: number = -1;
+  id: number;
+  isInEditMode: boolean;
   recipeForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private recipeService: RecipeService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
+      this.isInEditMode = params['id'] !== undefined;
 
       this.initForm();
     });
   }
 
   private initForm() {
-    let iRec = new Recipe('', '', '', []);
 
-    //if (this.id && this.id !== -1) {
-      iRec = this.recipeService.getRecipe(this.id) || iRec;
-    //}
+    let recipe = this.isInEditMode ? this.recipeService.getRecipe(this.id) : new Recipe('', '', '', []);
 
     this.recipeForm = new FormGroup({
-      name: new FormControl(iRec.name, Validators.required),
-      imageUrl: new FormControl(iRec.imagePath, Validators.required),
-      description: new FormControl(iRec.description, Validators.required),
+      name: new FormControl(recipe.name, Validators.required),
+      imageUrl: new FormControl(recipe.imagePath, Validators.required),
+      description: new FormControl(recipe.description, Validators.required),
       ingredients: new FormArray(
-        iRec.ingredients.map(
+        recipe.ingredients.map(
           (ingredient) =>
             new FormGroup({
               name: new FormControl(ingredient.name, Validators.required),
@@ -76,27 +76,23 @@ export class RecipeEditComponent implements OnInit {
 
 
   onSubmit() {
-    let recipe = new Recipe(
+    const recipe = new Recipe(
       this.recipeForm.value['name'],
       this.recipeForm.value['description'],
       this.recipeForm.value['imageUrl'],
-      this.recipeForm.value['ingredients'],
+      this.recipeForm.value['ingredients'].map((ingredient)=>{
+        return new Ingredient(ingredient.name, +ingredient.amount)
+      }),
     )
 
-    if (this.id && this.id !== -1) {
-      //update
-      this.recipeService.updateRecipe(recipe, this.id)
-
-    }else{
-      //addNew
+    this.isInEditMode ? this.recipeService.updateRecipe(recipe, this.id) :
         this.recipeService.addNewRecipe(recipe)
 
-      console.log(this.recipeService.getRecipes())
-    }
+    this.onCancel()
   }
 
   onCancel(){
-    //this.route.``
+    this.router.navigate(['../'], {relativeTo: this.route})
   }
 
 }
