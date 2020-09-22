@@ -73,4 +73,30 @@ export class RecipeEditComponent implements OnInit {
     // a getter!
     return (<FormArray>this.recipeForm.get('ingredients')).controls;
   }
+
+
+  onSubmit() {
+    let recipe = new Recipe(
+      this.recipeForm.value['name'],
+      this.recipeForm.value['description'],
+      this.recipeForm.value['imageUrl'],
+      this.recipeForm.value['ingredients'],
+    )
+
+    if (this.id && this.id !== -1) {
+      //update
+      this.recipeService.updateRecipe(recipe, this.id)
+
+    }else{
+      //addNew
+        this.recipeService.addNewRecipe(recipe)
+
+      console.log(this.recipeService.getRecipes())
+    }
+  }
+
+  onCancel(){
+    //this.route.``
+  }
+
 }

@@ -58,8 +58,4 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.newShoppingListItemForm.reset()
     this.editIndex = -1
   }
-
-  isValid(name: string){
-    this.newShoppingListItemForm.get('name').valid
-  }
 }
