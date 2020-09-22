@@ -51,7 +51,7 @@
       <div class="row" formArrayName="ingredients">
         <div
           class="row"
-          style="margin-top: 4px;"
+          style="margin-bottom: 4px;"
           *ngFor="let ingredientCtrl of controls; let i = index"
           [formGroupName]="i"
         >
@@ -79,6 +79,7 @@
               data-placement="top"
               title=""
               data-original-title="Delete"
+              (click)="deleteIngredient(i)"
             >
               <i class="fa fa-trash"></i>
             </button>
@@ -86,7 +87,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12"><button class="btn btn-success" type="button">Add New Ingredient</button></div>
+        <div class="col-xs-12"><button class="btn btn-success" type="button" (click)="addNewIngredient()">Add New Ingredient</button></div>
       </div>
     </form>
   </div>

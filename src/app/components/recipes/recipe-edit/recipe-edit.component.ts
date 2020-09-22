@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core'
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
-import { ActivatedRoute, Params } from '@angular/router'
-import { Recipe } from 'src/app/models/recipe.model'
-import { RecipeService } from 'src/app/services/recipe.service'
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Recipe } from 'src/app/models/recipe.model';
+import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -10,8 +10,8 @@ import { RecipeService } from 'src/app/services/recipe.service'
   styles: [],
 })
 export class RecipeEditComponent implements OnInit {
-  id: number = -1
-  recipeForm: FormGroup
+  id: number = -1;
+  recipeForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,18 +20,18 @@ export class RecipeEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id']
+      this.id = +params['id'];
 
-      this.initForm()
-    })
+      this.initForm();
+    });
   }
 
   private initForm() {
-    let iRec = new Recipe('', '', '', [])
+    let iRec = new Recipe('', '', '', []);
 
     if (this.id !== -1) {
-      iRec = this.recipeService.getRecipe(this.id)
-      console.log('editing recipe: ', iRec)
+      iRec = this.recipeService.getRecipe(this.id);
+      console.log('editing recipe: ', iRec);
     }
 
     this.recipeForm = new FormGroup({
@@ -47,14 +47,26 @@ export class RecipeEditComponent implements OnInit {
             })
         )
       ),
-    })
+    });
 
+    console.log(this.recipeForm);
+  }
 
-    console.log(this.recipeForm)
+  addNewIngredient() {
+    (<FormArray>this.recipeForm.get('ingredients')).push(
+      new FormGroup({
+        name: new FormControl(null, Validators.required),
+        amount: new FormControl(null, [Validators.required, Validators.min(1)]),
+      })
+    );
+  }
+
+  deleteIngredient(index: number) {
+    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index)
   }
 
   get controls() {
     // a getter!
-    return (<FormArray>this.recipeForm.get('ingredients')).controls
+    return (<FormArray>this.recipeForm.get('ingredients')).controls;
   }
 }
