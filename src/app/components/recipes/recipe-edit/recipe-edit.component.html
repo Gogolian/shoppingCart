@@ -1,8 +1,93 @@
-
-<p *ngIf="editMode">
-  recipe-edit works!
-</p>
-
-<p *ngIf="!editMode">
-  new item!
-</p>
+<div class="row">
+  <div class="col-xs-12">
+    <form [formGroup]="recipeForm">
+      <div class="row">
+        <div class="col-xs12">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" class="btn btn-danger">Cancel</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input
+              id="name"
+              type="text"
+              class="form-control"
+              name="name"
+              formControlName="name"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="imageUrl">image URL:</label>
+            <input
+              id="imageUrl"
+              type="text"
+              class="form-control"
+              name="imageUrl"
+              formControlName="imageUrl"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea
+              id="description"
+              class="form-control"
+              name="description"
+              formControlName="description"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row" formArrayName="ingredients">
+        <div
+          class="row"
+          style="margin-top: 4px;"
+          *ngFor="let ingredientCtrl of controls; let i = index"
+          [formGroupName]="i"
+        >
+          <div class="col-xs-8">
+            <input
+              id="ingredientName"
+              type="text"
+              class="form-control"
+              formControlName="name"
+            />
+          </div>
+          <div class="col-xs-2">
+            <input
+              id="ingredientAmount"
+              type="text"
+              class="form-control"
+              formControlName="amount"
+            />
+          </div>
+          <div class="col-xs-2">
+            <button
+              class="btn btn-danger btn-sm rounded-0"
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title=""
+              data-original-title="Delete"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12"><button class="btn btn-success" type="button">Add New Ingredient</button></div>
+      </div>
+    </form>
+  </div>
+</div>
