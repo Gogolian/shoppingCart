@@ -17,6 +17,7 @@
               class="form-control"
               name="name"
               formControlName="name"
+              #recipeName
             />
           </div>
         </div>
@@ -31,9 +32,13 @@
               class="form-control"
               name="imageUrl"
               formControlName="imageUrl"
+              #imagePath
             />
           </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12"><img style="max-height: 150px;" [src]="imagePath.value" [alt]="recipeName.value"></div>
       </div>
       <div class="row">
         <div class="col-xs-12">
@@ -87,7 +92,10 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12"><button class="btn btn-success" type="button" (click)="addNewIngredient()">Add New Ingredient</button></div>
+        <div class="col-xs-12">
+          <button class="btn btn-success" type="button" (click)="addNewIngredient()">Add New Ingredient</button>
+          <button class="btn btn-danger" type="button" (click)="deleteAllIngredients()">Delete All Ingredients</button>
+        </div>
       </div>
     </form>
   </div>
