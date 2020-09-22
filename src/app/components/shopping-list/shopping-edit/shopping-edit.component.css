@@ -1,0 +1,45 @@
+
+input, select{
+  padding: 5px;
+  margin-bottom: 15px;
+  min-width: 200px;;
+}
+
+input.ng-pending {
+  border: 2px solid transparent;
+  animation: pulse 1s infinite;
+}
+
+input.ng-invalid {
+  border: 2px solid red;
+}
+
+input.ng-valid {
+  border: 2px solid grey;
+  animation: fadeout 2s;
+}
+
+input.ng-untouched {
+  border: 1px solid grey
+}
+
+@keyframes pulse {
+  0% {
+    border-color: #0096b1;
+  }
+  50% {
+    border-color: #b1ae00;
+  }
+  100% {
+    border-color: #0096b1;
+  }
+}
+
+@keyframes fadeout {
+  0% {
+    border-color:rgb(72, 255, 0);
+  }
+  100% {
+    border-color: grey;
+  }
+}

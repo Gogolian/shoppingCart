@@ -6,7 +6,10 @@ import { ShoppingListService } from 'src/app/services/shopping-list.service';
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
-  styles: []
+  styles: [`
+  .btn {
+    margin-left: 6px;
+  }`]
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[];
@@ -28,7 +31,15 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   onEditItem(index: number){
+    this.slService.startedEditing.next(index)
+  }
 
+  onDeleteItem(index: number){
+    if(confirm('Are you sure?')){
+      this.slService.removeIngredient(index)
+    }else{
+      return;
+    }
   }
 
 }
