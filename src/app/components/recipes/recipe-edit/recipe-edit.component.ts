@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Ingredient } from 'src/app/models/ingredient.model'
 import { Recipe } from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
-  styles: [],
+  styles: [`
+  input.ng-invalid.ng-touched,
+  textarea.ng-invalid.ng-touched{
+    border: 1px solid red;
+  }`],
 })
 export class RecipeEditComponent implements OnInit {
   id: number = -1;
@@ -29,21 +34,20 @@ export class RecipeEditComponent implements OnInit {
   private initForm() {
     let iRec = new Recipe('', '', '', []);
 
-    if (this.id !== -1) {
-      iRec = this.recipeService.getRecipe(this.id);
-      console.log('editing recipe: ', iRec);
-    }
+    //if (this.id && this.id !== -1) {
+      iRec = this.recipeService.getRecipe(this.id) || iRec;
+    //}
 
     this.recipeForm = new FormGroup({
       name: new FormControl(iRec.name, Validators.required),
-      imageUrl: new FormControl(iRec.imagePath),
-      description: new FormControl(iRec.description),
+      imageUrl: new FormControl(iRec.imagePath, Validators.required),
+      description: new FormControl(iRec.description, Validators.required),
       ingredients: new FormArray(
         iRec.ingredients.map(
           (ingredient) =>
             new FormGroup({
-              name: new FormControl(ingredient.name),
-              amount: new FormControl(ingredient.ammount),
+              name: new FormControl(ingredient.name, Validators.required),
+              amount: new FormControl(ingredient.ammount, [Validators.min(1), Validators.required]),
             })
         )
       ),
@@ -56,7 +60,7 @@ export class RecipeEditComponent implements OnInit {
     (<FormArray>this.recipeForm.get('ingredients')).push(
       new FormGroup({
         name: new FormControl(null, Validators.required),
-        amount: new FormControl(null, [Validators.required, Validators.min(1)]),
+        amount: new FormControl(null, [Validators.min(1), Validators.required]),
       })
     );
   }
