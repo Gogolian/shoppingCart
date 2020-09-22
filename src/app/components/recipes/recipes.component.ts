@@ -7,17 +7,9 @@ import { Recipe } from 'src/app/models/recipe.model';
   styles: []
 })
 export class RecipesComponent implements OnInit {
-  recipe:Recipe;
-
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  onRecipeItemClicked(rec){
-    console.log("recipe")
-    console.log(rec)
-    this.recipe = rec;
   }
 
 }
