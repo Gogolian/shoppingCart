@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs'
 import { Ingredient } from 'src/app/models/ingredient.model';
 import { ShoppingListService } from 'src/app/services/shopping-list.service';
 
@@ -9,10 +10,11 @@ import { ShoppingListService } from 'src/app/services/shopping-list.service';
   styleUrls: ['./shopping-edit.component.css'],
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
-  editIndex: number = -1;
-  editItem: Ingredient;
+  editIndex: number = -1
+  editItem: Ingredient
+  startedEditingSubscription: Subscription
 
-  newShoppingListItemForm: FormGroup;
+  newShoppingListItemForm: FormGroup
 
   constructor(private slService: ShoppingListService) {}
 
@@ -22,7 +24,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       amount: new FormControl(null, [Validators.required, Validators.min(1)]),
     });
 
-    this.slService.startedEditing.subscribe((index) => {
+    this.startedEditingSubscription = this.slService.startedEditing.subscribe((index) => {
       this.editIndex = index;
       this.editItem = this.slService.getIngredient(index);
 
@@ -31,7 +33,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    !!this.slService.startedEditing && this.slService.startedEditing.unsubscribe();
+    this.startedEditingSubscription.unsubscribe();
   }
 
   onAddClick() {
