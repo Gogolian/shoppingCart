@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { RecipeService } from './recipe.service'
 import { Recipe } from '../models/recipe.model'
 
+import { map, tap } from "rxjs/operators";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,9 +22,17 @@ export class DatastorageService {
     }
 
     fetchRecipes(){
-      this.http.get<Recipe[]>('https://shoppingcart-3574a.firebaseio.com/recipes.json').subscribe((res)=>{
-        console.log(res);
-        this.recipeService.replaceRecipes(res);
-      })
+      return this.http.get<Recipe[]>('https://shoppingcart-3574a.firebaseio.com/recipes.json')
+      .pipe(
+        map(recipes => {
+          return recipes.map(r => {
+            return {...r, ingredients: r.ingredients ? r.ingredients : []}
+          })
+        }),
+        tap((res)=>{
+          console.log(res);
+          this.recipeService.replaceRecipes(res);
+        })
+      )
     }
 }
