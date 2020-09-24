@@ -63,4 +63,9 @@ export class RecipeService {
   private emitRecipesChanged(){
     this.recipesChanged.next(this.recipes.slice());
   }
+
+  replaceRecipes(recipes: Recipe[]){
+    this.recipes = recipes;
+    this.emitRecipesChanged()
+  }
 }
