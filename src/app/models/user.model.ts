@@ -12,7 +12,7 @@ export class User {
       return null;
     }
 
-    return this.token
+    return this._token
   }
 
 }
