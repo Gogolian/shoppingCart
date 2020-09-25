@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 import { NgForm } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
@@ -16,8 +16,8 @@ enum Mode {
 })
 export class AuthComponent implements OnInit {
   mode = Mode.LOGIN
-  isLoading = false;
-  error = null;
+  isLoading = false
+  error = null
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -26,12 +26,12 @@ export class AuthComponent implements OnInit {
 
   switchMode() {
     this.mode = this.mode == Mode.SIGNUP ? Mode.LOGIN : Mode.SIGNUP
-    this.error = null;
+    this.error = null
   }
 
   onSubmit(form: NgForm){
-    this.error = null;
-    this.isLoading = true;
+    this.error = null
+    this.isLoading = true
 
     let observable: Observable<AuthResponseData>
 
@@ -44,17 +44,17 @@ export class AuthComponent implements OnInit {
     observable.subscribe(
       response => {
         console.log(response)
-        this.isLoading = false;
+        this.isLoading = false
         this.router.navigate(['/recipes'])
       },
       error => {
         console.log(error)
         this.error = error
-        this.isLoading = false;
+        this.isLoading = false
       },
       () => {
         console.log('completed')
-        this.isLoading = false;
+        this.isLoading = false
       }
     )
 

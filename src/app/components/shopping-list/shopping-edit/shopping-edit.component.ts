@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs'
-import { Ingredient } from 'src/app/models/ingredient.model';
-import { ShoppingListService } from 'src/app/services/shopping-list.service';
+import { Ingredient } from 'src/app/models/ingredient.model'
+import { ShoppingListService } from 'src/app/services/shopping-list.service'
 
 @Component({
   selector: 'app-shopping-edit',
@@ -22,18 +22,18 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.newShoppingListItemForm = new FormGroup({
       name: new FormControl(null, Validators.required),
       amount: new FormControl(null, [Validators.required, Validators.min(1)]),
-    });
+    })
 
     this.startedEditingSubscription = this.slService.startedEditing.subscribe((index) => {
-      this.editIndex = index;
-      this.editItem = this.slService.getIngredient(index);
+      this.editIndex = index
+      this.editItem = this.slService.getIngredient(index)
 
-      this.newShoppingListItemForm.setValue({'name': this.editItem.name, 'amount': this.editItem.ammount});
-    });
+      this.newShoppingListItemForm.setValue({'name': this.editItem.name, 'amount': this.editItem.ammount})
+    })
   }
 
   ngOnDestroy() {
-    this.startedEditingSubscription.unsubscribe();
+    this.startedEditingSubscription.unsubscribe()
   }
 
   onAddClick() {
@@ -42,7 +42,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
         this.newShoppingListItemForm.value['name'],
         this.newShoppingListItemForm.value['amount']
       ),
-    ]);
+    ])
     this.onCancelClick()
   }
 
@@ -52,7 +52,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
         this.newShoppingListItemForm.value['name'],
         this.newShoppingListItemForm.value['amount']
       ), this.editIndex
-    );
+    )
     this.onCancelClick()
   }
 

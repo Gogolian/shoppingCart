@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Ingredient } from '../models/ingredient.model';
+import { Injectable } from '@angular/core'
+import { Subject } from 'rxjs'
+import { Ingredient } from '../models/ingredient.model'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingListService {
-  ingredientsChanged = new Subject<Ingredient[]>();
-  startedEditing = new Subject<number>();
+  ingredientsChanged = new Subject<Ingredient[]>()
+  startedEditing = new Subject<number>()
 
   shoppingList: Ingredient[] = [
     new Ingredient('Banana', 6),
@@ -16,11 +16,11 @@ export class ShoppingListService {
   ]
 
   getIngredients(){
-    return this.shoppingList.slice();
+    return this.shoppingList.slice()
   }
 
   getIngredient(index){
-    return this.shoppingList[index];
+    return this.shoppingList[index]
   }
 
   constructor() { }
@@ -31,7 +31,7 @@ export class ShoppingListService {
   }
 
   updateIngredient(ingredient: Ingredient, index: number){
-    this.shoppingList[index] = ingredient;
+    this.shoppingList[index] = ingredient
     this.emitIngredientsChanged()
   }
 
@@ -43,7 +43,7 @@ export class ShoppingListService {
   }
 
   private emitIngredientsChanged(){
-    this.ingredientsChanged.next(this.shoppingList.slice());
+    this.ingredientsChanged.next(this.shoppingList.slice())
   }
 
 

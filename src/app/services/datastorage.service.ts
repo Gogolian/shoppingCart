@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { RecipeService } from './recipe.service'
 import { Recipe } from '../models/recipe.model'
 
-import { exhaustMap, map, take, tap } from "rxjs/operators";
+import { exhaustMap, map, take, tap } from "rxjs/operators"
 import { UserService } from './user.service'
 
 @Injectable({
@@ -20,7 +20,7 @@ export class DatastorageService {
       this.http.put('https://shoppingcart-3574a.firebaseio.com/recipes.json',
       this.recipeService.getRecipes()).subscribe((res)=>{
         console.log(res)
-      });
+      })
     }
 
     fetchRecipes(){
@@ -35,8 +35,8 @@ export class DatastorageService {
           })
         }),
         tap((res)=>{
-          console.log(res);
-          this.recipeService.replaceRecipes(res);
+          console.log(res)
+          this.recipeService.replaceRecipes(res)
         })
       )
     }

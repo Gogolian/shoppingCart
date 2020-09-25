@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
 import { Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { DatastorageService } from 'src/app/services/datastorage.service'
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userSubscription = this.userService.user.subscribe( user => {
-      this.isAuthenticated = !!user;
+      this.isAuthenticated = !!user
     })
   }
 

@@ -1,16 +1,16 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 import { BehaviorSubject, Subject, throwError } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
 import { User } from '../models/user.model'
 
 export interface AuthResponseData {
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-  registered? :string;
+  idToken: string
+  email: string
+  refreshToken: string
+  expiresIn: string
+  localId: string
+  registered? :string
 }
 
 @Injectable({
@@ -18,7 +18,7 @@ export interface AuthResponseData {
 })
 export class UserService {
 
-  user = new BehaviorSubject<User>(null);
+  user = new BehaviorSubject<User>(null)
 
   constructor(private http: HttpClient) { }
 
@@ -39,7 +39,7 @@ export class UserService {
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occured!';
+    let errorMessage = 'An unknown error occured!'
 
     if(!errorResponse.error || !errorResponse.error.error){
       return throwError(errorMessage)
@@ -47,18 +47,18 @@ export class UserService {
 
     switch(errorResponse.error.error.message) {
       case 'EMAIL_EXISTS':
-        errorMessage = 'This email is already taken';
-        break;
+        errorMessage = 'This email is already taken'
+        break
       case 'EMAIL_NOT_FOUND':
-        errorMessage = 'User not found. Please sign-up first';
-        break;
+        errorMessage = 'User not found. Please sign-up first'
+        break
       case 'INVALID_PASSWORD':
-        errorMessage = 'Incorrect Password';
-        break;
+        errorMessage = 'Incorrect Password'
+        break
       default:
-        errorMessage = 'An unknown error occured!';
+        errorMessage = 'An unknown error occured!'
     }
-    return throwError(errorMessage);
+    return throwError(errorMessage)
   }
 
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
@@ -90,7 +90,9 @@ export class UserService {
       new Date(userData._tokenExpirationDate)
     )
 
-
+    if(loadedUser.token) {
+      this.user.next(loadedUser)
+    }
 
   }
 
