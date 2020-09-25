@@ -15,7 +15,8 @@ import { RecipeStartComponent } from './components/recipes/recipe-start/recipe-s
 import { RecipeEditComponent } from './components/recipes/recipe-edit/recipe-edit.component';
 import { DropdownDirective } from './directives/dropdown.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthComponent } from './components/auth/auth/auth.component';
+import { AuthComponent } from './components/auth/auth.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AuthComponent } from './components/auth/auth/auth.component';
     RecipeStartComponent,
     RecipeEditComponent,
     DropdownDirective,
-    AuthComponent
+    AuthComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
