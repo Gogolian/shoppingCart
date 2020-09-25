@@ -4,10 +4,10 @@
   </div>
 </div>
 
-<div *ngIf="!isLoading && error" class="row" style="margin-bottom: 20px;">
+<div *ngIf="!isLoading && error" class="row">
   <div class="col-xs-4 col-xs-offset-4">
-    <div class="list-group-item list-group-item-action list-group-item-danger">
-      {{ error.error.error.code }} {{ error.error.error.message }}
+    <div class="alert alert-danger">
+      {{ error }}
     </div>
   </div>
 </div>
