@@ -34,6 +34,9 @@ export class UserService {
       tap(resData => this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.refreshToken)))
   }
 
+  logout(){
+    this.user.next(null)
+  }
 
   private handleError(errorResponse: HttpErrorResponse) {
     let errorMessage = 'An unknown error occured!';
@@ -64,6 +67,31 @@ export class UserService {
     )
     const user = new User(email, userId, token, expirationDate )
     this.user.next(user)
+    localStorage.setItem('authUser', JSON.stringify(user))
+  }
+
+  autoLogin() {
+
+    const userData : {
+      email: string,
+      id: string,
+      _token: string,
+      _tokenExpirationDate: string
+    } = JSON.parse(localStorage.getItem('authUser'))
+
+    if (!userData) {
+      return null
+    }
+
+    const loadedUser = new User(
+      userData.email,
+      userData.id,
+      userData._token,
+      new Date(userData._tokenExpirationDate)
+    )
+
+
+
   }
 
 }

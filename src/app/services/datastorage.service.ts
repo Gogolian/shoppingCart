@@ -27,10 +27,7 @@ export class DatastorageService {
       return this.userService.user.pipe(
         take(1),
         exhaustMap( user =>
-          this.http.get<Recipe[]>('https://shoppingcart-3574a.firebaseio.com/recipes.json',
-          {
-            params: new HttpParams().set('auth', user.token)
-          })
+          this.http.get<Recipe[]>('https://shoppingcart-3574a.firebaseio.com/recipes.json')
         ),
         map(recipes => {
           return recipes.map(r => {
