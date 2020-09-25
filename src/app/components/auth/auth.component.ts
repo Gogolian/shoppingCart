@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms'
 import { Router } from '@angular/router'
-import { Observable } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
+import { PlaceholderDirective } from 'src/app/directives/placeholder.directive'
 import { AuthResponseData, UserService } from 'src/app/services/user.service'
+import { AlertComponent } from '../alert/alert.component'
 
 enum Mode {
   SIGNUP = 0,
@@ -14,12 +16,15 @@ enum Mode {
   templateUrl: './auth.component.html',
   styles: []
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   mode = Mode.LOGIN
   isLoading = false
   error = null
 
-  constructor(private userService: UserService, private router: Router) { }
+  @ViewChild(PlaceholderDirective, { static: false }) alertHost: PlaceholderDirective;
+  private closeSub: Subscription;
+
+  constructor(private userService: UserService, private router: Router, private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit(): void {
   }
@@ -51,6 +56,7 @@ export class AuthComponent implements OnInit {
         console.log(error)
         this.error = error
         this.isLoading = false
+        this.showErrorAlert(error);
       },
       () => {
         console.log('completed')
@@ -58,8 +64,33 @@ export class AuthComponent implements OnInit {
       }
     )
 
-
     form.reset()
+  }
+
+  onHandleError() {
+    this.error = null;
+  }
+
+  ngOnDestroy() {
+    if (this.closeSub) {
+      this.closeSub.unsubscribe();
+    }
+  }
+
+  private showErrorAlert(message: string) {
+    const alertCmpFactory = this.componentFactoryResolver.resolveComponentFactory(
+      AlertComponent
+    );
+    const hostViewContainerRef = this.alertHost.viewContainerRef;
+    hostViewContainerRef.clear();
+
+    const componentRef = hostViewContainerRef.createComponent(alertCmpFactory);
+
+    componentRef.instance.message = message;
+    this.closeSub = componentRef.instance.close.subscribe(() => {
+      this.closeSub.unsubscribe();
+      hostViewContainerRef.clear();
+    });
   }
 
 }

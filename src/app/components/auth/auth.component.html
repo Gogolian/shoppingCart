@@ -1,16 +1,18 @@
+<ng-template appPlaceholder></ng-template>
+
 <div *ngIf="isLoading" class="row">
   <div class="col-xs-4 col-xs-offset-4">
     <app-loading-spinner></app-loading-spinner>
   </div>
 </div>
 
-<div *ngIf="!isLoading && error" class="row">
+<!-- <div *ngIf="!isLoading && error" class="row">
   <div class="col-xs-4 col-xs-offset-4">
     <div class="alert alert-danger">
       {{ error }}
     </div>
   </div>
-</div>
+</div> -->
 
 <div *ngIf="!isLoading" class="row">
   <div class="col-xs-4 col-xs-offset-4">
