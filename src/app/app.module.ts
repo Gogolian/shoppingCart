@@ -17,7 +17,8 @@ import { DropdownDirective } from './directives/dropdown.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthComponent } from './components/auth/auth.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
-import { AuthInterceptorService } from './services/auth-interceptor.service'
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { AlertComponent } from './components/alert/alert.component'
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AuthInterceptorService } from './services/auth-interceptor.service'
     RecipeEditComponent,
     DropdownDirective,
     AuthComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
