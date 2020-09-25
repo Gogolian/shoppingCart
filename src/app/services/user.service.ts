@@ -20,6 +20,8 @@ export class UserService {
 
   user = new BehaviorSubject<User>(null)
 
+  private userExpiryTimer
+
   constructor(private http: HttpClient) { }
 
   register(email: string, password: string){
@@ -36,6 +38,11 @@ export class UserService {
 
   logout(){
     this.user.next(null)
+    if(this.userExpiryTimer){
+      clearTimeout(this.userExpiryTimer)
+    }
+    this.userExpiryTimer = null
+    localStorage.removeItem('authUser')
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
@@ -69,6 +76,7 @@ export class UserService {
 
     console.log('user on login', user)
     this.user.next(user)
+    this.autoLogout(expiresIn * 1000)
     localStorage.setItem('authUser', JSON.stringify(user))
   }
 
@@ -96,12 +104,16 @@ export class UserService {
 
     if(loadedUser.token) {
       this.user.next(loadedUser)
+      const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime()
+      this.autoLogout(expirationDuration)
     }
 
   }
 
-  autoLogout(){
-
+  autoLogout( expiry: number){
+    this.userExpiryTimer = setTimeout(() => {
+      this.logout()
+    }, expiry)
   }
 
 }
