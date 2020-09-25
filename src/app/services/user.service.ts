@@ -25,13 +25,13 @@ export class UserService {
   register(email: string, password: string){
     return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD6GDy1AY9uDDBa0_wcS6ON-g74_7-IUdA',
       {email, password, returnSecureToken: true}).pipe(catchError(error => this.handleError(error)),
-      tap(resData => this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.refreshToken)))
+      tap(resData => this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn)))
   }
 
   login(email: string, password: string){
     return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD6GDy1AY9uDDBa0_wcS6ON-g74_7-IUdA',
       {email, password, returnSecureToken: true}).pipe(catchError(error => this.handleError(error)),
-      tap(resData => this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.refreshToken)))
+      tap(resData => this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn)))
   }
 
   logout(){
@@ -66,6 +66,8 @@ export class UserService {
       new Date().getTime() + expiresIn * 1000
     )
     const user = new User(email, userId, token, expirationDate )
+
+    console.log('user on login', user)
     this.user.next(user)
     localStorage.setItem('authUser', JSON.stringify(user))
   }
@@ -78,6 +80,8 @@ export class UserService {
       _token: string,
       _tokenExpirationDate: string
     } = JSON.parse(localStorage.getItem('authUser'))
+
+    console.log('user', userData)
 
     if (!userData) {
       return null
@@ -93,6 +97,10 @@ export class UserService {
     if(loadedUser.token) {
       this.user.next(loadedUser)
     }
+
+  }
+
+  autoLogout(){
 
   }
 
