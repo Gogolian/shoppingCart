@@ -6,6 +6,7 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component'
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component'
 import { RecipeStartComponent } from './recipe-start/recipe-start.component'
 import { RecipesComponent } from './recipes.component'
+import { MyCommonModule } from 'src/app/my-common.module';
 
 const routes: Routes = [
   { path: '',

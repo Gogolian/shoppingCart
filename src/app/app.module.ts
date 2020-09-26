@@ -5,18 +5,17 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { HeaderComponent } from './components/header/header.component'
-import { DropdownDirective } from './directives/dropdown.directive'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AuthInterceptorService } from './services/auth-interceptor.service'
-import { PlaceholderDirective } from './directives/placeholder.directive'
 import { AuthModule } from './components/auth/auth.module'
+import { shoppingListReducer } from './components/shopping-list/store/shopping-list.reducer'
+import { StoreModule } from '@ngrx/store'
+import { CommonModule } from '@angular/common'
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DropdownDirective,
-    PlaceholderDirective
   ],
   imports: [
     BrowserModule,
@@ -24,9 +23,11 @@ import { AuthModule } from './components/auth/auth.module'
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AuthModule
+    AuthModule,
+    CommonModule,
+    StoreModule.forRoot({shoppingList: shoppingListReducer})
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
-  bootstrap: [AppComponent]
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true } ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
