@@ -7,14 +7,14 @@ import { AuthInterceptorService } from 'src/app/services/auth-interceptor.servic
 import { AlertComponent } from '../alert/alert.component'
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component'
 import { AuthComponent } from './auth.component'
-import { MyCommonModule } from '../../my-common.module'
+import { SharedModule } from '../../shared.module'
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     RouterModule.forChild( [{ path: 'auth', component: AuthComponent }] ),
-    MyCommonModule
+    SharedModule
   ],
   declarations: [
     AuthComponent,
