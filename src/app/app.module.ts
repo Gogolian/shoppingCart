@@ -8,9 +8,9 @@ import { HeaderComponent } from './components/header/header.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AuthInterceptorService } from './services/auth-interceptor.service'
 import { AuthModule } from './components/auth/auth.module'
-import { shoppingListReducer } from './components/shopping-list/store/shopping-list.reducer'
 import { StoreModule } from '@ngrx/store'
 import { SharedModule } from './shared.module'
+import { appReducer } from './app.reducer'
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { SharedModule } from './shared.module'
     HttpClientModule,
     AuthModule,
     SharedModule,
-    StoreModule.forRoot({shoppingList: shoppingListReducer})
+    StoreModule.forRoot(appReducer)
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true } ],
   bootstrap: [ AppComponent ]

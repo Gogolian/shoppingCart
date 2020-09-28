@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Ingredient } from 'src/app/models/ingredient.model'
-import * as fromShoppingList from '../store/shopping-list.reducer'
+import * as fromApp from '../../../app.reducer'
 import * as ShoppingListActions from '../store/shopping-list.actions'
 import { Store } from '@ngrx/store'
 
@@ -19,7 +19,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   newShoppingListItemForm: FormGroup
 
   constructor(
-    private store: Store<fromShoppingList.AppState>
+    private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit(): void {
