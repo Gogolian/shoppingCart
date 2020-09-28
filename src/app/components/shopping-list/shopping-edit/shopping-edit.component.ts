@@ -14,7 +14,7 @@ import { Store } from '@ngrx/store'
 export class ShoppingEditComponent implements OnInit, OnDestroy {
   editIndex: number = -1
   editItem: Ingredient
-  startedEditingSubscription: Subscription
+  editSub: Subscription
 
   newShoppingListItemForm: FormGroup
 
@@ -23,9 +23,22 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+
     this.newShoppingListItemForm = new FormGroup({
       name: new FormControl(null, Validators.required),
       amount: new FormControl(null, [Validators.required, Validators.min(1)]),
+    })
+
+    this.editSub = this.store.select('shoppingList').subscribe( state =>{
+
+      console.log(state)
+
+      this.editIndex = state.editedingredientIndex
+      this.editItem = state.editedingredient
+
+      console.log( this.editIndex, this.editItem )
+
+      this.editItem && this.newShoppingListItemForm.setValue({'name': this.editItem.name, 'amount': this.editItem.ammount})
     })
 
     // this.startedEditingSubscription = this.slService.startedEditing.subscribe((index) => {
@@ -37,7 +50,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    //this.startedEditingSubscription.unsubscribe()
+    this.editSub.unsubscribe()
+    this.onCancelClick()
   }
 
   onAddClick() {
@@ -52,13 +66,10 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   onUpdateClick() {
     this.store.dispatch( new ShoppingListActions.UpdateIngredient(
-      {
-        index: this.editIndex,
-        ingredient: new Ingredient(
+        new Ingredient(
           this.newShoppingListItemForm.value['name'],
           this.newShoppingListItemForm.value['amount']
         )
-      }
     ))
     this.onCancelClick()
   }
@@ -66,5 +77,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   onCancelClick(){
     this.newShoppingListItemForm.reset()
     this.editIndex = -1
+    this.store.dispatch( new ShoppingListActions.StopEditIngredient() )
   }
 }

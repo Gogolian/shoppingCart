@@ -13,7 +13,7 @@ export interface AppState {
 }
 
 
-const initialState = {
+const initialState: State = {
    ingredients: [
        new Ingredient('Tomato', 5),
        new Ingredient('Apple', 50),
@@ -23,7 +23,7 @@ const initialState = {
 }
 
 export function shoppingListReducer(
-  state = initialState,
+  state: State = initialState,
   action: ShoppingListActions.ShoppingListActions
 ) {
     switch (action.type) {
@@ -50,11 +50,13 @@ export function shoppingListReducer(
             ...state,
             ingredients: [
               ...state.ingredients.map( (ingredient, index) => {
-                if (action.payload.index === index)
-                  return action.payload.ingredient
+                if (state.editedingredientIndex === index)
+                  return action.payload
                 return ingredient
               })
-            ]
+            ],
+            editedingredientIndex: -1,
+            editedingredient: null
           }
 
         case ShoppingListActions.DELETE_INGREDIENT:
@@ -70,7 +72,7 @@ export function shoppingListReducer(
         case ShoppingListActions.START_EDIT_INGREDIENT:
           return {
             ...state,
-            editedingredient: state.ingredients.slice(action.payload, 1),
+            editedingredient: {...state.ingredients[action.payload]},
             editedingredientIndex: action.payload
           }
 
