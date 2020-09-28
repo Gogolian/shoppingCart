@@ -2,7 +2,7 @@ import { Action, union } from "@ngrx/store"
 
 export const AUTHENTICATE_START = 'AUTHENTICATE_START'
 export const AUTHENTICATE_FAIL = 'AUTHENTICATE_FAIL'
-export const LOGIN = 'LOGIN'
+export const AUTHENTICATE_SUCCESS = 'AUTHENTICATE_SUCCESS'
 export const LOGOUT = 'LOGOUT'
 export const SIGNUP = 'SIGNUP'
 
@@ -19,8 +19,8 @@ export class AuthenticateFail implements Action {
   constructor(public payload: string){}
 }
 
-export class Login implements Action {
-  readonly type = LOGIN
+export class AuthenticateSuccess implements Action {
+  readonly type = AUTHENTICATE_SUCCESS
 
   constructor(
     public payload: {
@@ -49,4 +49,4 @@ export class Logout implements Action {
   constructor() {}
 }
 
-export type AuthActions = Login | Logout | AuthenticateStart | AuthenticateFail
+export type AuthActions = AuthenticateSuccess | Logout | AuthenticateStart | AuthenticateFail

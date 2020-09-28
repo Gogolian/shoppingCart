@@ -112,7 +112,7 @@ export class UserService {
   ) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
 
-    this.store.dispatch( new AuthActions.Login({
+    this.store.dispatch( new AuthActions.AuthenticateSuccess({
       email,
       token,
       userId,
@@ -149,7 +149,7 @@ export class UserService {
         new Date(userData._tokenExpirationDate).getTime() -
         new Date().getTime();
 
-      this.store.dispatch( new AuthActions.Login({
+      this.store.dispatch( new AuthActions.AuthenticateSuccess({
         email: loadedUser.email,
         token: loadedUser.token,
         userId: loadedUser.id,

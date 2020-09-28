@@ -37,7 +37,7 @@ export class AuthEffects {
             const expirationDate = new Date(
               new Date().getTime() + +resData.expiresIn * 1000
             );
-            return new AuthActions.Login({
+            return new AuthActions.AuthenticateSuccess({
               email: resData.email,
               userId: resData.localId,
               token: resData.idToken,
@@ -72,7 +72,7 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   authSuccess = this.actions$.pipe(
-    ofType(AuthActions.LOGIN),
+    ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap(() => {
       this.router.navigate(['/']);
     })
