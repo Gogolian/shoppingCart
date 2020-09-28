@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Ingredient } from 'src/app/models/ingredient.model'
-import { ShoppingListService } from 'src/app/services/shopping-list.service'
+import * as fromShoppingList from '../store/shopping-list.reducer'
+import * as ShoppingListActions from '../store/shopping-list.actions'
+import { Store } from '@ngrx/store'
 
 @Component({
   selector: 'app-shopping-edit',
@@ -16,7 +18,9 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   newShoppingListItemForm: FormGroup
 
-  constructor(private slService: ShoppingListService) {}
+  constructor(
+    private store: Store<fromShoppingList.AppState>
+  ) {}
 
   ngOnInit(): void {
     this.newShoppingListItemForm = new FormGroup({
@@ -24,35 +28,38 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       amount: new FormControl(null, [Validators.required, Validators.min(1)]),
     })
 
-    this.startedEditingSubscription = this.slService.startedEditing.subscribe((index) => {
-      this.editIndex = index
-      this.editItem = this.slService.getIngredient(index)
+    // this.startedEditingSubscription = this.slService.startedEditing.subscribe((index) => {
+    //   this.editIndex = index
+    //   this.editItem = this.slService.getIngredient(index)
 
-      this.newShoppingListItemForm.setValue({'name': this.editItem.name, 'amount': this.editItem.ammount})
-    })
+    //   this.newShoppingListItemForm.setValue({'name': this.editItem.name, 'amount': this.editItem.ammount})
+    // })
   }
 
   ngOnDestroy() {
-    this.startedEditingSubscription.unsubscribe()
+    //this.startedEditingSubscription.unsubscribe()
   }
 
   onAddClick() {
-    this.slService.addIngredients([
+    this.store.dispatch( new ShoppingListActions.AddIngredient(
       new Ingredient(
         this.newShoppingListItemForm.value['name'],
         this.newShoppingListItemForm.value['amount']
-      ),
-    ])
+      )
+    ))
     this.onCancelClick()
   }
 
   onUpdateClick() {
-    this.slService.updateIngredient(
-      new Ingredient(
-        this.newShoppingListItemForm.value['name'],
-        this.newShoppingListItemForm.value['amount']
-      ), this.editIndex
-    )
+    this.store.dispatch( new ShoppingListActions.UpdateIngredient(
+      {
+        index: this.editIndex,
+        ingredient: new Ingredient(
+          this.newShoppingListItemForm.value['name'],
+          this.newShoppingListItemForm.value['amount']
+        )
+      }
+    ))
     this.onCancelClick()
   }
 

@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Ingredient } from 'src/app/models/ingredient.model'
-import { ShoppingListService } from 'src/app/services/shopping-list.service'
-//import { Store } from '@ngrx/store'
+import { Store } from '@ngrx/store'
+import * as ShoppingListActions from './store/shopping-list.actions'
+import * as fromShoppingList from './store/shopping-list.reducer'
 
 @Component({
   selector: 'app-shopping-list',
@@ -14,37 +15,28 @@ import { ShoppingListService } from 'src/app/services/shopping-list.service'
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
   ingredients: Observable<{ingredients: Ingredient[]}>
-  // private subscription: Subscription
 
   constructor(
-    private slService: ShoppingListService,
-    //private store: Store<{shoppingList:{ingredients: Ingredient[]}}>
-    ) { }
+    private store: Store<fromShoppingList.AppState>
+  ) { }
 
   ngOnInit(): void {
-    //this.ingredients = this.store.select('shoppingList')
-
-    // this.ingredients = this.slService.getIngredients()
-    // this.subscription = this.slService.ingredientsChanged.subscribe(
-    //   (newShoppingList: Ingredient[]) => {
-    //     this.ingredients = newShoppingList
-    //   }
-    // )
+    this.ingredients = this.store.select('shoppingList')
   }
 
   ngOnDestroy(): void{
-  //   !!this.subscription && this.subscription.unsubscribe()
   }
 
   onEditItem(index: number){
-    this.slService.startedEditing.next(index)
+    this.store.dispatch( new ShoppingListActions.StartEditIngredient(index) )
+    //this.slService.startedEditing.next(index)
   }
 
   onDeleteItem(index: number){
     if(confirm('Are you sure?')){
-      this.slService.removeIngredient(index)
+      this.store.dispatch( new ShoppingListActions.DeleteIngredient(index) )
     }else{
-      return
+      //
     }
   }
 
