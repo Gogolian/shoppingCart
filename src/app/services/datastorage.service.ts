@@ -6,6 +6,10 @@ import { Recipe } from '../models/recipe.model'
 import { exhaustMap, map, take, tap } from "rxjs/operators"
 import { UserService } from './user.service'
 
+import * as fromApp from '../app.reducer';
+import { Store } from '@ngrx/store'
+import * as AuthActions from '../components/auth/store/auth.actions'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +17,8 @@ export class DatastorageService {
 
   constructor(private http: HttpClient,
     private recipeService: RecipeService,
-    private userService: UserService
+    private userService: UserService,
+    private store: Store<fromApp.AppState>
     ) {  }
 
     storeRecipes(){
@@ -24,8 +29,9 @@ export class DatastorageService {
     }
 
     fetchRecipes(){
-      return this.userService.user.pipe(
+      return this.store.select('auth').pipe(
         take(1),
+        map(authState => authState.user),
         exhaustMap( user =>
           this.http.get<Recipe[]>('https://shoppingcart-3574a.firebaseio.com/recipes.json')
         ),
