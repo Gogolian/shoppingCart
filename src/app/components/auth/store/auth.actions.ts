@@ -5,6 +5,7 @@ export const AUTHENTICATE_FAIL = 'AUTHENTICATE_FAIL'
 export const AUTHENTICATE_SUCCESS = 'AUTHENTICATE_SUCCESS'
 export const LOGOUT = 'LOGOUT'
 export const SIGNUP = 'SIGNUP'
+export const RESET_ERROR = 'RESET_ERROR'
 
 
 export class AuthenticateStart implements Action {
@@ -49,4 +50,10 @@ export class Logout implements Action {
   constructor() {}
 }
 
-export type AuthActions = AuthenticateSuccess | Logout | AuthenticateStart | AuthenticateFail
+export class ResetError implements Action {
+  readonly type = RESET_ERROR
+
+  constructor() {}
+}
+
+export type AuthActions = AuthenticateSuccess | Logout | AuthenticateStart | AuthenticateFail | ResetError | Signup

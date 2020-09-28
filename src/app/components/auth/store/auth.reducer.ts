@@ -1,5 +1,3 @@
-import { Action } from '@ngrx/store';
-import { loadavg } from 'os'
 import { User } from '../../../models/user.model';
 import * as AuthActions from './auth.actions';
 
@@ -41,6 +39,7 @@ export function authReducer(
       }
 
     case AuthActions.AUTHENTICATE_START:
+    case AuthActions.SIGNUP:
       return {
         ...state,
         authError: null,
@@ -54,6 +53,12 @@ export function authReducer(
         authError: action.payload,
         loading: false
       }
+
+      case AuthActions.RESET_ERROR:
+        return {
+          ...state,
+          authError: null,
+        }
 
     default:
       return state;
