@@ -24,7 +24,7 @@ export class UserService {
     private store: Store<fromApp.AppState>
   ) {}
 
-  autoLogin() {
+  autoLognn() {
     const userData: {
       email: string;
       id: string;

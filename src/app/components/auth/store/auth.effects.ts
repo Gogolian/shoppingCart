@@ -67,6 +67,47 @@ const handleError = (errorResponse: {
 @Injectable()
 export class AuthEffects {
   @Effect()
+  autoLogin = this.actions$.pipe(
+    ofType(AuthActions.AUTO_LOGIN),
+    map(() => {
+      const userData: {
+        email: string;
+        id: string;
+        _token: string;
+        _tokenExpirationDate: string;
+      } = JSON.parse(localStorage.getItem('authUser'));
+
+      if (!userData) {
+        return { type: 'DUMY' };
+      }
+
+      const loadedUser = new User(
+        userData.email,
+        userData.id,
+        userData._token,
+        new Date(userData._tokenExpirationDate)
+      );
+
+      if (loadedUser.token) {
+        const expirationDuration =
+          new Date(userData._tokenExpirationDate).getTime() -
+          new Date().getTime();
+
+        //this.autoLogout(expirationDuration);
+
+        return new AuthActions.AuthenticateSuccess({
+          email: loadedUser.email,
+          token: loadedUser.token,
+          userId: loadedUser.id,
+          expirationDate: new Date(userData._tokenExpirationDate),
+        });
+      }
+
+      return { type: 'DUMY' };
+    })
+  );
+
+  @Effect()
   authLogin = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATE_START),
     switchMap((authData: AuthActions.AuthenticateStart) => {
@@ -90,8 +131,8 @@ export class AuthEffects {
   );
 
   @Effect({ dispatch: false })
-  authSuccess = this.actions$.pipe(
-    ofType(AuthActions.AUTHENTICATE_SUCCESS),
+  authRedirect = this.actions$.pipe(
+    ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
     tap(() => {
       this.router.navigate(['/']);
     })
@@ -117,6 +158,14 @@ export class AuthEffects {
           ),
           catchError((errorResponse) => handleError(errorResponse))
         );
+    })
+  );
+
+  @Effect({dispatch: false})
+  authLogout = this.actions$.pipe(
+    ofType(AuthActions.LOGOUT),
+    tap(() => {
+      localStorage.removeItem('authUser');
     })
   );
 

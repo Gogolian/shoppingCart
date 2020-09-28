@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core'
+import { Store } from '@ngrx/store'
 import { UserService } from './services/user.service'
+import * as AuthActions from './components/auth/store/auth.actions'
+import * as fromApp from './app.reducer';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +13,9 @@ import { UserService } from './services/user.service'
 export class AppComponent implements OnInit{
   title = 'shoppingCart'
 
-  constructor( private userService: UserService ){}
+  constructor( private store: Store<fromApp.AppState> ){}
 
   ngOnInit() {
-    this.userService.autoLogin()
+    this.store.dispatch( new AuthActions.AutoLogin() )
   }
 }

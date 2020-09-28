@@ -54,11 +54,11 @@ export function authReducer(
         loading: false
       }
 
-      case AuthActions.RESET_ERROR:
-        return {
-          ...state,
-          authError: null,
-        }
+    case AuthActions.RESET_ERROR:
+      return {
+        ...state,
+        authError: null,
+      }
 
     default:
       return state;
