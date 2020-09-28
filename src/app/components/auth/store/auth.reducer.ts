@@ -40,14 +40,14 @@ export function authReducer(
         loading: false
       }
 
-    case AuthActions.LOGIN_START:
+    case AuthActions.AUTHENTICATE_START:
       return {
         ...state,
         authError: null,
         loading: true
       }
 
-    case AuthActions.LOGIN_FAIL:
+    case AuthActions.AUTHENTICATE_FAIL:
       return {
         ...state,
         user: null,

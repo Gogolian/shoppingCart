@@ -26,13 +26,13 @@ enum Mode {
   styles: [],
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  mode = Mode.LOGIN;
-  isLoading = false;
-  error = null;
+  mode = Mode.LOGIN
+  isLoading = false
+  error = null
 
   @ViewChild(PlaceholderDirective, { static: false })
-  alertHost: PlaceholderDirective;
-  private closeSub: Subscription;
+  alertHost: PlaceholderDirective
+  private closeSub: Subscription
 
   constructor(
     private userService: UserService,
@@ -44,7 +44,11 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.store.select('auth').subscribe(authState => {
-      
+      this.isLoading = authState.loading
+      this.error = authState.authError
+      if(this.error) {
+        this.showErrorAlert(this.error)
+      }
     })
 
   }
@@ -69,13 +73,13 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.mode == Mode.SIGNUP
         ? this.userService.register(form.value['email'], form.value['password'])
         : this.store.dispatch(
-            new AuthActions.LoginStart({
+            new AuthActions.AuthenticateStart({
               email: form.value['email'],
               password: form.value['password'],
             })
           );
 
-   
+
 
     // observable.subscribe(
     //   (response) => {
