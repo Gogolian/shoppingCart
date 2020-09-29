@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service'
 
 export interface AuthResponseData {
   idToken: string;
@@ -25,7 +26,6 @@ const handleAuthentication = (
 ) => {
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
 
-  //this.autoLogout(expiresIn * 1000);
   localStorage.setItem(
     'authUser',
     JSON.stringify(new User(email, userId, token, expirationDate))
@@ -93,7 +93,7 @@ export class AuthEffects {
           new Date(userData._tokenExpirationDate).getTime() -
           new Date().getTime();
 
-        //this.autoLogout(expirationDuration);
+       this.userService.setLogoutTimer(expirationDuration)
 
         return new AuthActions.AuthenticateSuccess({
           email: loadedUser.email,
@@ -122,6 +122,7 @@ export class AuthEffects {
           }
         )
         .pipe(
+          tap(({expiresIn}) => this.userService.setLogoutTimer(+expiresIn * 1000) ),
           map(({ email, idToken, expiresIn, localId }) =>
             handleAuthentication(email, localId, idToken, +expiresIn)
           ),
@@ -153,6 +154,7 @@ export class AuthEffects {
           }
         )
         .pipe(
+          tap(({expiresIn}) => this.userService.setLogoutTimer(+expiresIn * 1000) ),
           map(({ email, idToken, expiresIn, localId }) =>
             handleAuthentication(email, localId, idToken, +expiresIn)
           ),
@@ -165,13 +167,16 @@ export class AuthEffects {
   authLogout = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     tap(() => {
-      localStorage.removeItem('authUser');
+      this.userService.clearLogoutTimer()
+      localStorage.removeItem('authUser')
+      this.router.navigate(['/auth'])
     })
   );
 
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 }
