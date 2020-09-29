@@ -1,11 +1,10 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
-import { Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { DatastorageService } from 'src/app/services/datastorage.service'
-import { UserService } from 'src/app/services/user.service'
 import * as fromApp from '../../app.reducer';
 import { Store } from '@ngrx/store'
 import * as AuthActions from '../../components/auth/store/auth.actions'
+import * as RecipesActions from '../recipes/store/recipe.actions'
 
 @Component({
   selector: 'app-header',
@@ -19,8 +18,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private dataService: DatastorageService,
-    private userService: UserService,
-    private router: Router,
     private store: Store<fromApp.AppState>
   ) { }
 
@@ -39,7 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   fetchData(){
-    this.dataService.fetchRecipes().subscribe()
+    this.store.dispatch( new RecipesActions.FetchRecipes() )
   }
 
   onLogout(){
