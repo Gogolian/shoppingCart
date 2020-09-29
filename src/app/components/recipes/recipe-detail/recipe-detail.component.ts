@@ -6,6 +6,7 @@ import { RecipeService } from 'src/app/services/recipe.service'
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions'
 import * as fromApp from '../../../app.reducer'
 import { map, switchMap } from 'rxjs/operators'
+import * as RecipesActions from '../store/recipe.actions'
 
 @Component({
   selector: 'app-recipe-detail',
@@ -67,7 +68,7 @@ export class RecipeDetailComponent implements OnInit {
 
   deleteRecipe(){
     //this.recipeService.deleteRecipe(this.recipeIndex)
-    this.store.dispatch( new ShoppingListActions.DeleteIngredient(this.recipeIndex) )
+    this.store.dispatch( new RecipesActions.DeleteRecipe(this.recipeIndex) )
     this.router.navigate(['/recipes'])
   }
 }
