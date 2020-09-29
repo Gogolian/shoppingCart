@@ -1,6 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core'
-import { RecipeService } from 'src/app/services/recipe.service'
+import { Store } from '@ngrx/store'
+import { Subscription } from 'rxjs'
 import { Recipe } from '../../../models/recipe.model'
+import * as fromApp from '../../../app.reducer'
+import { map, tap } from 'rxjs/operators'
 
 @Component({
   selector: 'app-recipe-list',
@@ -10,16 +13,23 @@ import { Recipe } from '../../../models/recipe.model'
 export class RecipeListComponent implements OnInit {
   @Output("onRecipeItemClicked") clicker = new EventEmitter<Recipe>()
   recipes: Recipe[] = []
+  subscription: Subscription
 
-  constructor(private recipeService: RecipeService ) { }
+  constructor(
+    private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
-    this.recipes = this.recipeService.getRecipes()
 
-    this.recipeService.recipesChanged.subscribe(
-      (recipes: Recipe[]) => {
-      this.recipes = recipes
-    })
+    this.store.select('recipes')
+    .subscribe( recipesState => recipesState && (this.recipes = recipesState.recipes) )
+
+    
+    // // Alternative solution
+
+    // this.store.select('recipes')
+    // .pipe( map( recpieState => recpieState.recipes) )
+    // .subscribe( recipes => this.recipes = recipes )
+
   }
 
   onRecipeItemClicked(recipe){

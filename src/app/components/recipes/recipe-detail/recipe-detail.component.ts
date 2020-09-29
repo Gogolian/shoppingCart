@@ -5,6 +5,7 @@ import { Recipe } from 'src/app/models/recipe.model'
 import { RecipeService } from 'src/app/services/recipe.service'
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions'
 import * as fromApp from '../../../app.reducer'
+import { map, switchMap } from 'rxjs/operators'
 
 @Component({
   selector: 'app-recipe-detail',
@@ -23,10 +24,39 @@ export class RecipeDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.recipeIndex = +params['id']
-      this.recipe = this.recipeService.getRecipe(+params['id'])
-    })
+
+    this.route.params.pipe(
+      switchMap(
+        params => {
+          this.recipeIndex = +params['id']
+          return this.store.select('recipes')
+        }
+      ),
+      map(
+        recipesState => recipesState.recipes.find(
+          (recipe, index) => index === this.recipeIndex
+        )
+      )
+    ).subscribe(
+      (recipe: Recipe) => this.recipe = recipe
+    )
+
+    // Alternative way
+
+    // this.route.params.subscribe((params: Params) => {
+    //   this.recipeIndex = +params['id']
+    //   this.recipe = this.recipeService.getRecipe(+params['id'])
+    //       this.store
+    //       .select('recipes')
+    //       .pipe( 
+    //         map( recipesState => {
+    //           return recipesState.recipes.find((recipe, index) => {
+    //             return index === this.recipeIndex
+    //           })
+    //         })
+    //       ).subscribe((recipe: Recipe) => this.recipe = recipe)
+    // })
+
   }
 
   addIngredientsToShoppingList() {
