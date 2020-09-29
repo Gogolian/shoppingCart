@@ -3,9 +3,6 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/r
 import { Store } from '@ngrx/store'
 
 import { Recipe } from "../models/recipe.model"
-import { DatastorageService } from "./datastorage.service"
-import { RecipeService } from './recipe.service'
-
 import { Actions, ofType } from '@ngrx/effects'
 
 import * as fromApp from '../app.reducer'
