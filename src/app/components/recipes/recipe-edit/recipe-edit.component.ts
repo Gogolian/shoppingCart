@@ -4,6 +4,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router'
 import { Ingredient } from 'src/app/models/ingredient.model'
 import { Recipe } from 'src/app/models/recipe.model'
 import { RecipeService } from 'src/app/services/recipe.service'
+import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions'
+import * as fromApp from '../../../app.reducer'
+import { Store } from '@ngrx/store'
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-recipe-edit',
@@ -22,7 +26,8 @@ export class RecipeEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit(): void {
@@ -35,25 +40,37 @@ export class RecipeEditComponent implements OnInit {
   }
 
   private initForm() {
+    
+    let recipe = new Recipe('', '', '', [])
 
-    let recipe = this.isInEditMode ? this.recipeService.getRecipe(this.id) : new Recipe('', '', '', [])
-
-    this.recipeForm = new FormGroup({
-      name: new FormControl(recipe.name, Validators.required),
-      imageUrl: new FormControl(recipe.imagePath, Validators.required),
-      description: new FormControl(recipe.description, Validators.required),
-      ingredients: new FormArray(
-        recipe.ingredients.map(
-          (ingredient) =>
-            new FormGroup({
-              name: new FormControl(ingredient.name, Validators.required),
-              amount: new FormControl(ingredient.ammount, [Validators.min(1), Validators.required]),
-            })
+    if( this.isInEditMode ) {
+      this.store.select('recipes').pipe(
+        map(
+          recipeState => recipeState.recipes.find(
+            (recipe, index) => index === this.id
+          )
         )
-      ),
-    })
-
-    console.log(this.recipeForm)
+      )
+      .subscribe(
+        (recipe: Recipe) => {
+          this.recipeForm = new FormGroup({
+            name: new FormControl(recipe.name, Validators.required),
+            imageUrl: new FormControl(recipe.imagePath, Validators.required),
+            description: new FormControl(recipe.description, Validators.required),
+            ingredients: new FormArray(
+              recipe.ingredients.map(
+                (ingredient) =>
+                  new FormGroup({
+                    name: new FormControl(ingredient.name, Validators.required),
+                    amount: new FormControl(ingredient.ammount, [Validators.min(1), Validators.required]),
+                  })
+              )
+            ),
+          })
+        }
+      )
+    }
+    
   }
 
   addNewIngredient() {
