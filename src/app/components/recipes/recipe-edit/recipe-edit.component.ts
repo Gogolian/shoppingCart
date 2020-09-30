@@ -36,15 +36,15 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id']
-      this.isInEditMode = params['id'] !== undefined
+      this.id = +params.id
+      this.isInEditMode = params.id !== undefined
 
       this.initForm()
     })
   }
 
   private initForm() {
-    let recipe = new Recipe('', '', '', [])
+    const recipe = new Recipe('', '', '', [])
 
     this.recipeForm = new FormGroup({
       name: new FormControl(recipe.name, Validators.required),
@@ -69,7 +69,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
             ingredients: [],
           })
           recipe.ingredients.map((ingredient) =>
-            (<FormArray>this.recipeForm.get('ingredients')).push(
+            (this.recipeForm.get('ingredients') as FormArray).push(
               new FormGroup({
                 name: new FormControl(ingredient.name, Validators.required),
                 amount: new FormControl(ingredient.ammount, [
@@ -84,7 +84,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   addNewIngredient() {
-    (<FormArray>this.recipeForm.get('ingredients')).push(
+    (this.recipeForm.get('ingredients') as FormArray).push(
       new FormGroup({
         name: new FormControl(null, Validators.required),
         amount: new FormControl(null, [Validators.min(1), Validators.required]),
@@ -93,20 +93,20 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   deleteIngredient(index: number) {
-    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index)
+    (this.recipeForm.get('ingredients') as FormArray).removeAt(index)
   }
 
   get controls() {
     // a getter!
-    return (<FormArray>this.recipeForm.get('ingredients')).controls
+    return (this.recipeForm.get('ingredients') as FormArray).controls
   }
 
   onSubmit() {
     const recipe = new Recipe(
-      this.recipeForm.value['name'],
-      this.recipeForm.value['description'],
-      this.recipeForm.value['imageUrl'],
-      this.recipeForm.value['ingredients'].map(
+      this.recipeForm.value.name,
+      this.recipeForm.value.description,
+      this.recipeForm.value.imageUrl,
+      this.recipeForm.value.ingredients.map(
         (ingredient) => new Ingredient(ingredient.name, +ingredient.amount)
       )
     )
@@ -128,7 +128,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   deleteAllIngredients() {
-    (<FormArray>this.recipeForm.get('ingredients')).clear()
+    (this.recipeForm.get('ingredients') as FormArray).clear()
   }
 
   ngOnDestroy() {

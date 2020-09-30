@@ -26,7 +26,7 @@ export class RecipeDetailComponent implements OnInit {
     this.route.params
       .pipe(
         switchMap((params) => {
-          this.recipeIndex = +params['id']
+          this.recipeIndex = +params.id
           return this.store.select('recipes')
         }),
         map((recipesState) =>
@@ -55,7 +55,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   addIngredientsToShoppingList() {
-    //this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients)
+    // this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients)
     this.store.dispatch(
       new ShoppingListActions.AddIngredients(this.recipe.ingredients)
     )
@@ -63,7 +63,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   deleteRecipe() {
-    //this.recipeService.deleteRecipe(this.recipeIndex)
+    // this.recipeService.deleteRecipe(this.recipeIndex)
     this.store.dispatch(new RecipesActions.DeleteRecipe(this.recipeIndex))
     this.router.navigate(['/recipes'])
   }

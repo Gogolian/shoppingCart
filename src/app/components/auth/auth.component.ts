@@ -61,14 +61,14 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.mode == Mode.SIGNUP
       ? this.store.dispatch(
           new AuthActions.Signup({
-            email: form.value['email'],
-            password: form.value['password'],
+            email: form.value.email,
+            password: form.value.password,
           })
         )
       : this.store.dispatch(
           new AuthActions.AuthenticateStart({
-            email: form.value['email'],
-            password: form.value['password'],
+            email: form.value.email,
+            password: form.value.password,
           })
         )
 

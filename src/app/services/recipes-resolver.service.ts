@@ -12,7 +12,7 @@ import { Actions, ofType } from '@ngrx/effects'
 import * as fromApp from '../app.reducer'
 import * as RecipeAtions from '../components/recipes/store/recipe.actions'
 import { map, switchMap, take } from 'rxjs/operators'
-import { of } from 'rxjs'
+import { Observable, of } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
 export class RecipesResolverService implements Resolve<Recipe[]> {
@@ -21,7 +21,7 @@ export class RecipesResolverService implements Resolve<Recipe[]> {
     private actions$: Actions
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
     return this.store.select('recipes').pipe(
       take(1),
       map((recipesState) => recipesState.recipes),

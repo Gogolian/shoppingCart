@@ -16,7 +16,7 @@ const initialState: State = {
 export function shoppingListReducer(
   state: State = initialState,
   action: ShoppingListActions.ShoppingListActions
-) {
+): State {
   switch (action.type) {
     case ShoppingListActions.ADD_INGREDIENT:
       return {
@@ -35,7 +35,7 @@ export function shoppingListReducer(
         ...state,
         ingredients: [
           ...state.ingredients.map((ingredient, index) => {
-            if (state.editedingredientIndex === index) return action.payload
+            if (state.editedingredientIndex === index) { return action.payload }
             return ingredient
           }),
         ],

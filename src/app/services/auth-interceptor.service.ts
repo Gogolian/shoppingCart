@@ -18,7 +18,7 @@ export class AuthInterceptorService implements HttpInterceptor {
     private store: Store<fromApp.AppState>
   ) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
+  intercept(req: HttpRequest<any>, next: HttpHandler): any {
     return this.store.select('auth').pipe(
       take(1),
       map((authState) => authState.user),

@@ -11,13 +11,15 @@ export class UserService {
 
   constructor(private store: Store<fromApp.AppState>) {}
 
-  setLogoutTimer(expiry: number) {
+  setLogoutTimer(expiry: number): void {
     this.userExpiryTimer = setTimeout(() => {
       this.store.dispatch(new AuthActions.Logout())
     }, expiry)
   }
 
-  clearLogoutTimer() {
-    this.userExpiryTimer && clearTimeout(this.userExpiryTimer)
+  clearLogoutTimer(): void {
+    if (this.userExpiryTimer){
+      clearTimeout(this.userExpiryTimer)
+    }
   }
 }

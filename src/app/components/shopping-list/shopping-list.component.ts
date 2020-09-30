@@ -27,12 +27,12 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  onEditItem(index: number) {
+  onEditItem(index: number): void {
     this.store.dispatch(new ShoppingListActions.StartEditIngredient(index))
-    //this.slService.startedEditing.next(index)
+    // this.slService.startedEditing.next(index)
   }
 
-  onDeleteItem(index: number) {
+  onDeleteItem(index: number): void {
     if (confirm('Are you sure?')) {
       this.store.dispatch(new ShoppingListActions.DeleteIngredient(index))
     } else {

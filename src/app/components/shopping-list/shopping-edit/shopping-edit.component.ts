@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store'
   styleUrls: ['./shopping-edit.component.css'],
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
-  editIndex: number = -1
+  editIndex = -1
   editItem: Ingredient
   editSub: Subscription
 
@@ -58,8 +58,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new ShoppingListActions.AddIngredient(
         new Ingredient(
-          this.newShoppingListItemForm.value['name'],
-          this.newShoppingListItemForm.value['amount']
+          this.newShoppingListItemForm.value.name,
+          this.newShoppingListItemForm.value.amount
         )
       )
     )
@@ -70,8 +70,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new ShoppingListActions.UpdateIngredient(
         new Ingredient(
-          this.newShoppingListItemForm.value['name'],
-          this.newShoppingListItemForm.value['amount']
+          this.newShoppingListItemForm.value.name,
+          this.newShoppingListItemForm.value.amount
         )
       )
     )
