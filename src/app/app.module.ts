@@ -18,12 +18,10 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store'
 import { environment } from 'src/environments/environment'
 import { RecipeEffects } from './components/recipes/store/recipe.effects'
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-  ],
+  declarations: [AppComponent, HeaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -34,10 +32,17 @@ import { RecipeEffects } from './components/recipes/store/recipe.effects'
     SharedModule,
     StoreModule.forRoot(appReducer),
     EffectsModule.forRoot([AuthEffects, RecipeEffects]),
-    StoreDevtoolsModule.instrument({logOnly: environment.production}),
-    StoreRouterConnectingModule.forRoot()
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    StoreRouterConnectingModule.forRoot(),
+    BrowserAnimationsModule,
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true } ],
-  bootstrap: [ AppComponent ]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

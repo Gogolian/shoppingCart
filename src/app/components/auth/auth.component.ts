@@ -4,14 +4,14 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-} from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { PlaceholderDirective } from 'src/app/directives/placeholder.directive';
-import { AlertComponent } from '../alert/alert.component';
-import * as fromApp from '../../app.reducer';
-import { Store } from '@ngrx/store';
-import * as AuthActions from '../../components/auth/store/auth.actions';
+} from '@angular/core'
+import { NgForm } from '@angular/forms'
+import { Subscription } from 'rxjs'
+import { PlaceholderDirective } from 'src/app/directives/placeholder.directive'
+import { AlertComponent } from '../alert/alert.component'
+import * as fromApp from '../../app.reducer'
+import { Store } from '@ngrx/store'
+import * as AuthActions from '../../components/auth/store/auth.actions'
 
 enum Mode {
   SIGNUP = 0,
@@ -40,46 +40,43 @@ export class AuthComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-
-    this.storeSub = this.store.select('auth').subscribe(authState => {
+    this.storeSub = this.store.select('auth').subscribe((authState) => {
       this.isLoading = authState.loading
       this.error = authState.authError
-      if(this.error) {
+      if (this.error) {
         this.showErrorAlert(this.error)
       }
     })
-
   }
 
   switchMode() {
-    this.mode = this.mode == Mode.SIGNUP ? Mode.LOGIN : Mode.SIGNUP;
-    
+    this.mode = this.mode == Mode.SIGNUP ? Mode.LOGIN : Mode.SIGNUP
+
     this.onHandleError()
   }
 
   onSubmit(form: NgForm) {
-
     this.onHandleError()
 
-      this.mode == Mode.SIGNUP
-        ? this.store.dispatch(
+    this.mode == Mode.SIGNUP
+      ? this.store.dispatch(
           new AuthActions.Signup({
             email: form.value['email'],
             password: form.value['password'],
           })
         )
-        : this.store.dispatch(
-            new AuthActions.AuthenticateStart({
-              email: form.value['email'],
-              password: form.value['password'],
-            })
-          )
+      : this.store.dispatch(
+          new AuthActions.AuthenticateStart({
+            email: form.value['email'],
+            password: form.value['password'],
+          })
+        )
 
-    form.reset();
+    form.reset()
   }
 
   onHandleError() {
-    this.store.dispatch( new AuthActions.ResetError() )
+    this.store.dispatch(new AuthActions.ResetError())
   }
 
   ngOnDestroy() {
@@ -90,16 +87,16 @@ export class AuthComponent implements OnInit, OnDestroy {
   private showErrorAlert(message: string) {
     const alertCmpFactory = this.componentFactoryResolver.resolveComponentFactory(
       AlertComponent
-    );
-    const hostViewContainerRef = this.alertHost.viewContainerRef;
-    hostViewContainerRef.clear();
+    )
+    const hostViewContainerRef = this.alertHost.viewContainerRef
+    hostViewContainerRef.clear()
 
-    const componentRef = hostViewContainerRef.createComponent(alertCmpFactory);
+    const componentRef = hostViewContainerRef.createComponent(alertCmpFactory)
 
-    componentRef.instance.message = message;
+    componentRef.instance.message = message
     this.closeSub = componentRef.instance.close.subscribe(() => {
-      this.closeSub.unsubscribe();
-      hostViewContainerRef.clear();
-    });
+      this.closeSub.unsubscribe()
+      hostViewContainerRef.clear()
+    })
   }
 }

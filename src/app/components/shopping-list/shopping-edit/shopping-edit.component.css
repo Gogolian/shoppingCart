@@ -1,8 +1,8 @@
-
-input, select{
+input,
+select {
   padding: 5px;
   margin-bottom: 15px;
-  min-width: 200px;;
+  min-width: 200px;
 }
 
 input.ng-pending {
@@ -20,7 +20,7 @@ input.ng-valid {
 }
 
 input.ng-untouched {
-  border: 1px solid grey
+  border: 1px solid grey;
 }
 
 @keyframes pulse {
@@ -37,7 +37,7 @@ input.ng-untouched {
 
 @keyframes fadeout {
   0% {
-    border-color:rgb(72, 255, 0);
+    border-color: rgb(72, 255, 0);
   }
   100% {
     border-color: grey;

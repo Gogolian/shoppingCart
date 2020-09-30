@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { AuthGuard } from 'src/app/guards/auth.guard'
 import { RecipesResolverService } from 'src/app/services/recipes-resolver.service'
@@ -8,15 +8,25 @@ import { RecipeStartComponent } from './recipe-start/recipe-start.component'
 import { RecipesComponent } from './recipes.component'
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: RecipesComponent,
     canActivate: [AuthGuard],
     children: [
-    { path: '', component: RecipeStartComponent },
-    { path: 'new', component: RecipeEditComponent },
-    { path: ':id', component: RecipeDetailComponent, resolve: [RecipesResolverService] },
-    { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipesResolverService] },
-  ] },
+      { path: '', component: RecipeStartComponent },
+      { path: 'new', component: RecipeEditComponent },
+      {
+        path: ':id',
+        component: RecipeDetailComponent,
+        resolve: [RecipesResolverService],
+      },
+      {
+        path: ':id/edit',
+        component: RecipeEditComponent,
+        resolve: [RecipesResolverService],
+      },
+    ],
+  },
 ]
 
 @NgModule({
@@ -25,4 +35,4 @@ const routes: Routes = [
   declarations: [],
   providers: [],
 })
-export class RecipesRoutingModule { }
+export class RecipesRoutingModule {}

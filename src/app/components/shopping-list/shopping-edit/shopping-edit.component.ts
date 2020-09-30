@@ -18,27 +18,27 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   newShoppingListItemForm: FormGroup
 
-  constructor(
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-
     this.newShoppingListItemForm = new FormGroup({
       name: new FormControl(null, Validators.required),
       amount: new FormControl(null, [Validators.required, Validators.min(1)]),
     })
 
-    this.editSub = this.store.select('shoppingList').subscribe( state =>{
-
+    this.editSub = this.store.select('shoppingList').subscribe((state) => {
       console.log(state)
 
       this.editIndex = state.editedingredientIndex
       this.editItem = state.editedingredient
 
-      console.log( this.editIndex, this.editItem )
+      console.log(this.editIndex, this.editItem)
 
-      this.editItem && this.newShoppingListItemForm.setValue({'name': this.editItem.name, 'amount': this.editItem.ammount})
+      this.editItem &&
+        this.newShoppingListItemForm.setValue({
+          name: this.editItem.name,
+          amount: this.editItem.ammount,
+        })
     })
 
     // this.startedEditingSubscription = this.slService.startedEditing.subscribe((index) => {
@@ -55,28 +55,32 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   onAddClick() {
-    this.store.dispatch( new ShoppingListActions.AddIngredient(
-      new Ingredient(
-        this.newShoppingListItemForm.value['name'],
-        this.newShoppingListItemForm.value['amount']
-      )
-    ))
-    this.onCancelClick()
-  }
-
-  onUpdateClick() {
-    this.store.dispatch( new ShoppingListActions.UpdateIngredient(
+    this.store.dispatch(
+      new ShoppingListActions.AddIngredient(
         new Ingredient(
           this.newShoppingListItemForm.value['name'],
           this.newShoppingListItemForm.value['amount']
         )
-    ))
+      )
+    )
     this.onCancelClick()
   }
 
-  onCancelClick(){
+  onUpdateClick() {
+    this.store.dispatch(
+      new ShoppingListActions.UpdateIngredient(
+        new Ingredient(
+          this.newShoppingListItemForm.value['name'],
+          this.newShoppingListItemForm.value['amount']
+        )
+      )
+    )
+    this.onCancelClick()
+  }
+
+  onCancelClick() {
     this.newShoppingListItemForm.reset()
     this.editIndex = -1
-    this.store.dispatch( new ShoppingListActions.StopEditIngredient() )
+    this.store.dispatch(new ShoppingListActions.StopEditIngredient())
   }
 }

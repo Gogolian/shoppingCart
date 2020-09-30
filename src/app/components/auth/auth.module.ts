@@ -13,14 +13,16 @@ import { SharedModule } from '../../shared.module'
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild( [{ path: 'auth', component: AuthComponent }] ),
-    SharedModule
+    RouterModule.forChild([{ path: 'auth', component: AuthComponent }]),
+    SharedModule,
   ],
-  declarations: [
-    AuthComponent,
-    LoadingSpinnerComponent,
-    AlertComponent,
+  declarations: [AuthComponent, LoadingSpinnerComponent, AlertComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
 })
-export class AuthModule { }
+export class AuthModule {}

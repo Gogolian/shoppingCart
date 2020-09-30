@@ -4,7 +4,9 @@
       <div class="row">
         <div class="col-xs12">
           <button type="submit" class="btn btn-success">Save</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">
+            Cancel
+          </button>
         </div>
       </div>
       <div class="row">
@@ -38,7 +40,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12"><img style="max-height: 150px;" [src]="imagePath.value" [alt]="recipeName.value"></div>
+        <div class="col-xs-12">
+          <img
+            style="max-height: 150px"
+            [src]="imagePath.value"
+            [alt]="recipeName.value"
+          />
+        </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
@@ -56,7 +64,7 @@
       <div class="row" formArrayName="ingredients">
         <div
           class="row"
-          style="margin-bottom: 4px;"
+          style="margin-bottom: 4px"
           *ngFor="let ingredientCtrl of controls; let i = index"
           [formGroupName]="i"
         >
@@ -93,8 +101,20 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-success" type="button" (click)="addNewIngredient()">Add New Ingredient</button>
-          <button class="btn btn-danger" type="button" (click)="deleteAllIngredients()">Delete All Ingredients</button>
+          <button
+            class="btn btn-success"
+            type="button"
+            (click)="addNewIngredient()"
+          >
+            Add New Ingredient
+          </button>
+          <button
+            class="btn btn-danger"
+            type="button"
+            (click)="deleteAllIngredients()"
+          >
+            Delete All Ingredients
+          </button>
         </div>
       </div>
     </form>

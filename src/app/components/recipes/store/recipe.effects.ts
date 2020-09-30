@@ -11,37 +11,36 @@ import * as fromApp from '../../../app.reducer'
 export class RecipeEffects {
   @Effect()
   fetchRecipes = this.action$.pipe(
-    ofType(
-      RecipesActions.FETCH_RECIPES
-    ),
-    switchMap(
-      () => this.http.get<Recipe[]>('https://shoppingcart-3574a.firebaseio.com/recipes.json')
-    ),
-    map(
-      recipes => recipes.map(
-        r => ({...r, ingredients: r.ingredients ? r.ingredients : []})
+    ofType(RecipesActions.FETCH_RECIPES),
+    switchMap(() =>
+      this.http.get<Recipe[]>(
+        'https://shoppingcart-3574a.firebaseio.com/recipes.json'
       )
     ),
-    map(
-      recipes => new RecipesActions.SetRecipes(recipes)
-    )
+    map((recipes) =>
+      recipes.map((r) => ({
+        ...r,
+        ingredients: r.ingredients ? r.ingredients : [],
+      }))
+    ),
+    map((recipes) => new RecipesActions.SetRecipes(recipes))
   )
 
-  @Effect({dispatch: false})
+  @Effect({ dispatch: false })
   storeRecipes = this.action$.pipe(
-    ofType( RecipesActions.STORE_RECIPES ),
+    ofType(RecipesActions.STORE_RECIPES),
     withLatestFrom(this.store.select('recipes')),
-    switchMap(
-      ([actionData, recipesState]) => 
-        this.http.put(
-          'https://shoppingcart-3574a.firebaseio.com/recipes.json',
-          recipesState.recipes)
-    ),
+    switchMap(([actionData, recipesState]) =>
+      this.http.put(
+        'https://shoppingcart-3574a.firebaseio.com/recipes.json',
+        recipesState.recipes
+      )
+    )
   )
 
   constructor(
     private action$: Actions,
     private http: HttpClient,
     private store: Store<fromApp.AppState>
-  ){}
+  ) {}
 }

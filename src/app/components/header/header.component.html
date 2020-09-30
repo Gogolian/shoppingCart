@@ -1,26 +1,44 @@
-<nav class="navclass navbar-default" style="margin-bottom: 20px;;">
+<nav class="navclass navbar-default" style="margin-bottom: 20px ;">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" (click)="collapsed = !collapsed">
-    	<span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
+      <button
+        type="button"
+        class="navbar-toggle"
+        (click)="collapsed = !collapsed"
+      >
+        <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
       </button>
       <a routerLink="/" class="navbar-brand">Recipe Book</a>
     </div>
-    <div class="navbar-collapse" [class.collapse]="collapsed" (window:resize)="collapsed = true">
+    <div
+      class="navbar-collapse"
+      [class.collapse]="collapsed"
+      (window:resize)="collapsed = true"
+    >
       <ul class="nav navbar-nav">
-          <li><a routerLink="/auth" *ngIf="!isAuthenticated">Authenticate</a></li>
-          <li><a routerLink="/recipes" *ngIf="isAuthenticated">Recipes</a></li>
-          <li><a routerLink="/shopping-list" *ngIf="isAuthenticated">Shopping List</a></li>
+        <li><a routerLink="/auth" *ngIf="!isAuthenticated">Authenticate</a></li>
+        <li><a routerLink="/recipes" *ngIf="isAuthenticated">Recipes</a></li>
+        <li>
+          <a routerLink="/shopping-list" *ngIf="isAuthenticated"
+            >Shopping List</a
+          >
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="isAuthenticated">
-          <a style="cursor: pointer;" (click)="onLogout()">Logout</a>
+          <a style="cursor: pointer" (click)="onLogout()">Logout</a>
         </li>
         <li class="dropdown" *ngIf="isAuthenticated" appDropdown>
-          <a style="cursor:pointer" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
+          <a style="cursor: pointer" class="dropdown-toggle" role="button"
+            >Manage <span class="caret"></span
+          ></a>
           <ul class="dropdown-menu">
-            <li><a style="cursor: pointer;" (click)="saveData()">Save Data</a></li>
-            <li><a style="cursor: pointer;" (click)="fetchData()">Fetch Data</a></li>
+            <li>
+              <a style="cursor: pointer" (click)="saveData()">Save Data</a>
+            </li>
+            <li>
+              <a style="cursor: pointer" (click)="fetchData()">Fetch Data</a>
+            </li>
           </ul>
         </li>
       </ul>

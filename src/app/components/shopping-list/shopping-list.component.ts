@@ -8,36 +8,35 @@ import * as fromApp from '../../app.reducer'
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
-  styles: [`
-  .btn {
-    margin-left: 6px
-  }`]
+  styles: [
+    `
+      .btn {
+        margin-left: 6px;
+      }
+    `,
+  ],
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
-  ingredients: Observable<{ingredients: Ingredient[]}>
+  ingredients: Observable<{ ingredients: Ingredient[] }>
 
-  constructor(
-    private store: Store<fromApp.AppState>
-  ) { }
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
     this.ingredients = this.store.select('shoppingList')
   }
 
-  ngOnDestroy(): void{
-  }
+  ngOnDestroy(): void {}
 
-  onEditItem(index: number){
-    this.store.dispatch( new ShoppingListActions.StartEditIngredient(index) )
+  onEditItem(index: number) {
+    this.store.dispatch(new ShoppingListActions.StartEditIngredient(index))
     //this.slService.startedEditing.next(index)
   }
 
-  onDeleteItem(index: number){
-    if(confirm('Are you sure?')){
-      this.store.dispatch( new ShoppingListActions.DeleteIngredient(index) )
-    }else{
+  onDeleteItem(index: number) {
+    if (confirm('Are you sure?')) {
+      this.store.dispatch(new ShoppingListActions.DeleteIngredient(index))
+    } else {
       //
     }
   }
-
 }

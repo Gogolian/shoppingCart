@@ -41,7 +41,11 @@
           >
             Update
           </button>
-          <button class="btn btn-danger" type="submit" (click)="onCancelClick()">
+          <button
+            class="btn btn-danger"
+            type="submit"
+            (click)="onCancelClick()"
+          >
             {{ editIndex === -1 ? 'Clear' : 'Cancel' }}
           </button>
         </div>

@@ -12,11 +12,14 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
-  styles: [`
-  input.ng-invalid.ng-touched,
-  textarea.ng-invalid.ng-touched{
-    border: 1px solid red
-  }`],
+  styles: [
+    `
+      input.ng-invalid.ng-touched,
+      textarea.ng-invalid.ng-touched {
+        border: 1px solid red;
+      }
+    `,
+  ],
 })
 export class RecipeEditComponent implements OnInit, OnDestroy {
   id: number
@@ -41,7 +44,6 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    
     let recipe = new Recipe('', '', '', [])
 
     this.recipeForm = new FormGroup({
@@ -51,30 +53,34 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
       ingredients: new FormArray([]),
     })
 
-    if( this.isInEditMode ) {
-      this.storeSub = this.store.select('recipes').pipe(
-        map(
-          recipeState => recipeState.recipes.find(
-            (recipe, index) => index === this.id
+    if (this.isInEditMode) {
+      this.storeSub = this.store
+        .select('recipes')
+        .pipe(
+          map((recipeState) =>
+            recipeState.recipes.find((recipe, index) => index === this.id)
           )
         )
-      )
-      .subscribe(
-        (recipe: Recipe) => {
-          this.recipeForm.setValue({name: recipe.name, imageUrl: recipe.imagePath, description: recipe.description, ingredients: []})
-          recipe.ingredients.map(
-            ingredient =>
-              (<FormArray>this.recipeForm.get('ingredients')).push(
-                new FormGroup({
-                  name: new FormControl(ingredient.name, Validators.required),
-                  amount: new FormControl(ingredient.ammount, [Validators.min(1), Validators.required]),
-                })
-              )
+        .subscribe((recipe: Recipe) => {
+          this.recipeForm.setValue({
+            name: recipe.name,
+            imageUrl: recipe.imagePath,
+            description: recipe.description,
+            ingredients: [],
+          })
+          recipe.ingredients.map((ingredient) =>
+            (<FormArray>this.recipeForm.get('ingredients')).push(
+              new FormGroup({
+                name: new FormControl(ingredient.name, Validators.required),
+                amount: new FormControl(ingredient.ammount, [
+                  Validators.min(1),
+                  Validators.required,
+                ]),
+              })
+            )
           )
-        }
-      )
+        })
     }
-    
   }
 
   addNewIngredient() {
@@ -95,21 +101,21 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     return (<FormArray>this.recipeForm.get('ingredients')).controls
   }
 
-
   onSubmit() {
     const recipe = new Recipe(
       this.recipeForm.value['name'],
       this.recipeForm.value['description'],
       this.recipeForm.value['imageUrl'],
       this.recipeForm.value['ingredients'].map(
-        ingredient => new Ingredient(ingredient.name, +ingredient.amount)
-      ),
+        (ingredient) => new Ingredient(ingredient.name, +ingredient.amount)
+      )
     )
 
-
     this.isInEditMode
-      ? this.store.dispatch( new RecipesActions.UpdateRecipe({index: this.id, recipe}) )
-      : this.store.dispatch( new RecipesActions.AddRecipe(recipe) )
+      ? this.store.dispatch(
+          new RecipesActions.UpdateRecipe({ index: this.id, recipe })
+        )
+      : this.store.dispatch(new RecipesActions.AddRecipe(recipe))
 
     // this.isInEditMode ? this.recipeService.updateRecipe(recipe, this.id) :
     //     this.recipeService.addNewRecipe(recipe)
@@ -117,16 +123,15 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     this.onCancel()
   }
 
-  onCancel(){
-    this.router.navigate(['../'], {relativeTo: this.route})
+  onCancel() {
+    this.router.navigate(['../'], { relativeTo: this.route })
   }
 
-  deleteAllIngredients(){
+  deleteAllIngredients() {
     (<FormArray>this.recipeForm.get('ingredients')).clear()
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.storeSub && this.storeSub.unsubscribe()
   }
-
 }

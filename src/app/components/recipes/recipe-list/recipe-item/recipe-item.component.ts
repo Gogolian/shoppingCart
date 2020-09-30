@@ -4,15 +4,13 @@ import { Recipe } from 'src/app/models/recipe.model'
 @Component({
   selector: 'app-recipe-item',
   templateUrl: './recipe-item.component.html',
-  styles: []
+  styles: [],
 })
 export class RecipeItemComponent implements OnInit {
   @Input() recipe: Recipe
   @Input() index: number
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
