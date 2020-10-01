@@ -5,18 +5,15 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { HeaderComponent } from './components/header/header.component'
-import { DropdownDirective } from './directives/dropdown.directive'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AuthInterceptorService } from './services/auth-interceptor.service'
-import { PlaceholderDirective } from './directives/placeholder.directive'
 import { AuthModule } from './components/auth/auth.module'
+import { SharedModule } from './shared.module'
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DropdownDirective,
-    PlaceholderDirective
   ],
   imports: [
     BrowserModule,
@@ -24,7 +21,8 @@ import { AuthModule } from './components/auth/auth.module'
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AuthModule
+    AuthModule,
+    SharedModule
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
