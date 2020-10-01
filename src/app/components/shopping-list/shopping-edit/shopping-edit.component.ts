@@ -49,12 +49,12 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     // })
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.editSub.unsubscribe()
     this.onCancelClick()
   }
 
-  onAddClick() {
+  onAddClick(): void {
     this.store.dispatch(
       new ShoppingListActions.AddIngredient(
         new Ingredient(
@@ -66,7 +66,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.onCancelClick()
   }
 
-  onUpdateClick() {
+  onUpdateClick(): void {
     this.store.dispatch(
       new ShoppingListActions.UpdateIngredient(
         new Ingredient(
@@ -78,7 +78,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.onCancelClick()
   }
 
-  onCancelClick() {
+  onCancelClick(): void {
     this.newShoppingListItemForm.reset()
     this.editIndex = -1
     this.store.dispatch(new ShoppingListActions.StopEditIngredient())

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs'
 import { Recipe } from '../../../models/recipe.model'
 import * as fromApp from '../../../app.reducer'
 import { map, tap } from 'rxjs/operators'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-recipe-list',
@@ -15,7 +16,9 @@ export class RecipeListComponent implements OnInit {
   recipes: Recipe[] = []
   subscription: Subscription
 
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(
+    private router: Router,
+    private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
     this.store
@@ -34,5 +37,10 @@ export class RecipeListComponent implements OnInit {
   onRecipeItemClicked(recipe) {
     console.log('recipe from recipe list:', recipe)
     this.clicker.emit(recipe)
+  }
+
+  onCloseRecipe(): void {
+    console.log('clickoutside')
+    this.router.navigate(['/recipes'])
   }
 }

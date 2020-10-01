@@ -29,19 +29,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.userSubscription.unsubscribe()
   }
 
-  saveData() {
+  saveData(): void {
     this.store.dispatch(new RecipesActions.StoreRecipes())
   }
 
-  fetchData() {
+  fetchData(): void {
     this.store.dispatch(new RecipesActions.FetchRecipes())
   }
 
-  onLogout() {
+  onLogout(): void {
     this.store.dispatch(new AuthActions.Logout())
   }
 }

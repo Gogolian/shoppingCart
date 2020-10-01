@@ -49,16 +49,16 @@ export class AuthComponent implements OnInit, OnDestroy {
     })
   }
 
-  switchMode() {
-    this.mode = this.mode == Mode.SIGNUP ? Mode.LOGIN : Mode.SIGNUP
+  switchMode(): void {
+    this.mode = this.mode === Mode.SIGNUP ? Mode.LOGIN : Mode.SIGNUP
 
     this.onHandleError()
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm): void {
     this.onHandleError()
 
-    this.mode == Mode.SIGNUP
+    this.mode === Mode.SIGNUP
       ? this.store.dispatch(
           new AuthActions.Signup({
             email: form.value.email,
@@ -75,11 +75,11 @@ export class AuthComponent implements OnInit, OnDestroy {
     form.reset()
   }
 
-  onHandleError() {
+  onHandleError(): void {
     this.store.dispatch(new AuthActions.ResetError())
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.closeSub && this.closeSub.unsubscribe()
     this.storeSub && this.storeSub.unsubscribe()
   }

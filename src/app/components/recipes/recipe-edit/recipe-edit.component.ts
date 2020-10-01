@@ -43,7 +43,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     })
   }
 
-  private initForm() {
+  private initForm(): void {
     const recipe = new Recipe('', '', '', [])
 
     this.recipeForm = new FormGroup({
@@ -68,7 +68,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
             description: recipe.description,
             ingredients: [],
           })
-          recipe.ingredients.map((ingredient) =>
+          recipe.ingredients.map((ingredient: Ingredient) =>
             (this.recipeForm.get('ingredients') as FormArray).push(
               new FormGroup({
                 name: new FormControl(ingredient.name, Validators.required),
@@ -83,7 +83,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  addNewIngredient() {
+  addNewIngredient(): void {
     (this.recipeForm.get('ingredients') as FormArray).push(
       new FormGroup({
         name: new FormControl(null, Validators.required),
@@ -101,13 +101,13 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     return (this.recipeForm.get('ingredients') as FormArray).controls
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const recipe = new Recipe(
       this.recipeForm.value.name,
       this.recipeForm.value.description,
       this.recipeForm.value.imageUrl,
       this.recipeForm.value.ingredients.map(
-        (ingredient) => new Ingredient(ingredient.name, +ingredient.amount)
+        ingredient => new Ingredient(ingredient.name, +ingredient.amount)
       )
     )
 
@@ -123,15 +123,15 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     this.onCancel()
   }
 
-  onCancel() {
+  onCancel(): void {
     this.router.navigate(['../'], { relativeTo: this.route })
   }
 
-  deleteAllIngredients() {
+  deleteAllIngredients(): void {
     (this.recipeForm.get('ingredients') as FormArray).clear()
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.storeSub && this.storeSub.unsubscribe()
   }
 }

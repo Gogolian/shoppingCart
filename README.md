@@ -1,5 +1,7 @@
 # ShoppingCart
 
+H̸̨̫̰͈̯̱͚̀̋I̶̧̥̙̜̜̤̤͒̂̋̂̑̕͝R̴͉͙͎͗͐E̵͍͊̊̌ ̷̹̽M̴̡̛̝̼̪̈͗̀̊E̵͇͙̘͕̠̲̐̏̄́̅̊̇̚ ̸͔̹̻̳̓͒Ḩ̶̟̰͌̓̈̍͝I̷͚̓̀͛̉͆̓͘Ŗ̶̝̥̥̾̄̎͒E̵̼̪̻͈͗͜ ̶̛̥̯̣͆̀̆͌M̸͍̅̀Ę̵̗̘̬̤̝̂̆̊̔̏
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.1.
 
 ## Development server
