@@ -7,9 +7,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core'
 })
 export class AlertComponent {
   @Input() message: string
-  @Output() AlertComponent = new EventEmitter<void>()
+  @Output() close = new EventEmitter<void>()
 
   onClose(): void {
-    this.AlertComponent.emit()
+    this.close.emit()
   }
 }

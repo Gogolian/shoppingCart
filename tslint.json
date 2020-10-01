@@ -60,7 +60,7 @@
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
     "no-var-requires": false,
-    "allow-fast-null-checks": true,
+    "no-unused-expression": [true, "allow-fast-null-checks"],
     "object-literal-key-quotes": [
       true,
       "as-needed"
@@ -130,9 +130,7 @@
     "no-host-metadata-property": true,
     "no-input-rename": true,
     "no-inputs-metadata-property": true,
-    "no-output-native": true,
     "no-output-on-prefix": true,
-    "no-output-rename": true,
     "no-outputs-metadata-property": true,
     "template-banana-in-box": true,
     "template-no-negated-async": true,
@@ -149,6 +147,10 @@
       "element",
       "app",
       "kebab-case"
-    ]
+    ],
+
+    "no-output-native": false,
+    "no-output-rename": false,
+    "no-shadowed-variable": false
   }
 }

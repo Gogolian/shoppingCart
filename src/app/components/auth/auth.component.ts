@@ -84,7 +84,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.storeSub && this.storeSub.unsubscribe()
   }
 
-  private showErrorAlert(message: string) {
+  private showErrorAlert(message: string): void {
     const alertCmpFactory = this.componentFactoryResolver.resolveComponentFactory(
       AlertComponent
     )

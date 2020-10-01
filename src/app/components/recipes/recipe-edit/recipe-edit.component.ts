@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Params, Router } from '@angular/router'
 import { Ingredient } from 'src/app/models/ingredient.model'
 import { Recipe } from 'src/app/models/recipe.model'
@@ -58,7 +58,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
         .select('recipes')
         .pipe(
           map((recipeState) =>
-            recipeState.recipes.find((recipe, index) => index === this.id)
+            recipeState.recipes.find((recipe , index) => index === this.id)
           )
         )
         .subscribe((recipe: Recipe) => {
@@ -92,11 +92,11 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     )
   }
 
-  deleteIngredient(index: number) {
+  deleteIngredient(index: number): void {
     (this.recipeForm.get('ingredients') as FormArray).removeAt(index)
   }
 
-  get controls() {
+  get controls(): AbstractControl[] {
     // a getter!
     return (this.recipeForm.get('ingredients') as FormArray).controls
   }

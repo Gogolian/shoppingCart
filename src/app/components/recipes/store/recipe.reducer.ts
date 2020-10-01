@@ -13,7 +13,7 @@ const initialState: State = {
 export function recipeReducer(
   state: State,
   action: RecipesActions.RecipesActions
-) {
+): State {
   switch (action.type) {
     case RecipesActions.SET_RECIPES:
       return {

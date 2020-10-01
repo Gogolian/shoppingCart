@@ -12,6 +12,7 @@ import { Router } from '@angular/router'
   styles: [],
 })
 export class RecipeListComponent implements OnInit {
+
   @Output('onRecipeItemClicked') clicker = new EventEmitter<Recipe>()
   recipes: Recipe[] = []
   subscription: Subscription
@@ -34,7 +35,7 @@ export class RecipeListComponent implements OnInit {
     // .subscribe( recipes => this.recipes = recipes )
   }
 
-  onRecipeItemClicked(recipe) {
+  onRecipeItemClicked(recipe): void {
     console.log('recipe from recipe list:', recipe)
     this.clicker.emit(recipe)
   }
